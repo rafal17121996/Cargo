@@ -21,9 +21,14 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await api.post("/login", {
-        username: credentials.username,
-        password: credentials.password,
+      const formData = new URLSearchParams();
+      formData.append("username", credentials.username);
+      formData.append("password", credentials.password);
+
+      const response = await api.post("/login", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       });
 
       if (!response || response.status !== 200) {
